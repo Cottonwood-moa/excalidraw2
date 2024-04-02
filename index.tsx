@@ -1,22 +1,22 @@
-import React, {useEffect} from 'react';
-import {InitializeApp} from './components/InitializeApp';
-import App from './components/App';
-import {isShallowEqual} from './utils';
+import React, { useEffect } from "react";
+import { InitializeApp } from "./components/InitializeApp";
+import App from "./components/App";
+import { isShallowEqual } from "./utils";
 
-import './css/app.scss';
-import './css/styles.scss';
-import '../../public/fonts/fonts.css';
-import polyfill from './polyfill';
+import "./css/app.scss";
+import "./css/styles.scss";
+import "../../public/fonts/fonts.css";
+import polyfill from "./polyfill";
 
-import {AppProps, ExcalidrawProps} from './types';
-import {defaultLang} from './i18n';
-import {DEFAULT_UI_OPTIONS} from './constants';
-import {Provider} from 'jotai';
-import {jotaiScope, jotaiStore} from './jotai';
-import Footer from './components/footer/FooterCenter';
-import MainMenu from './components/main-menu/MainMenu';
-import WelcomeScreen from './components/welcome-screen/WelcomeScreen';
-import LiveCollaborationTrigger from './components/live-collaboration/LiveCollaborationTrigger';
+import { AppProps, ExcalidrawProps } from "./types";
+import { defaultLang } from "./i18n";
+import { DEFAULT_UI_OPTIONS } from "./constants";
+import { Provider } from "jotai";
+import { jotaiScope, jotaiStore } from "./jotai";
+import Footer from "./components/footer/FooterCenter";
+import MainMenu from "./components/main-menu/MainMenu";
+import WelcomeScreen from "./components/welcome-screen/WelcomeScreen";
+import LiveCollaborationTrigger from "./components/live-collaboration/LiveCollaborationTrigger";
 
 polyfill();
 
@@ -56,7 +56,7 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
 
   // FIXME normalize/set defaults in parent component so that the memo resolver
   // compares the same values
-  const UIOptions: AppProps['UIOptions'] = {
+  const UIOptions: AppProps["UIOptions"] = {
     ...props.UIOptions,
     canvasActions: {
       ...DEFAULT_UI_OPTIONS.canvasActions,
@@ -75,7 +75,7 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
 
   if (
     UIOptions.canvasActions.toggleTheme === null &&
-    typeof theme === 'undefined'
+    typeof theme === "undefined"
   ) {
     UIOptions.canvasActions.toggleTheme = true;
   }
@@ -83,7 +83,7 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
   useEffect(() => {
     const importPolyfill = async () => {
       //@ts-ignore
-      await import('canvas-roundrect-polyfill');
+      await import("canvas-roundrect-polyfill");
     };
 
     importPolyfill();
@@ -91,17 +91,17 @@ const ExcalidrawBase = (props: ExcalidrawProps) => {
     // Block pinch-zooming on iOS outside of the content area
     const handleTouchMove = (event: TouchEvent) => {
       // @ts-ignore
-      if (typeof event.scale === 'number' && event.scale !== 1) {
+      if (typeof event.scale === "number" && event.scale !== 1) {
         event.preventDefault();
       }
     };
 
-    document.addEventListener('touchmove', handleTouchMove, {
+    document.addEventListener("touchmove", handleTouchMove, {
       passive: false,
     });
 
     return () => {
-      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener("touchmove", handleTouchMove);
     };
   }, []);
 
@@ -175,13 +175,13 @@ const areEqual = (prevProps: ExcalidrawProps, nextProps: ExcalidrawProps) => {
   }
 
   const isUIOptionsSame = prevUIOptionsKeys.every((key) => {
-    if (key === 'canvasActions') {
+    if (key === "canvasActions") {
       const canvasOptionKeys = Object.keys(
-        prevUIOptions.canvasActions!
+        prevUIOptions.canvasActions!,
       ) as (keyof Partial<typeof DEFAULT_UI_OPTIONS.canvasActions>)[];
       return canvasOptionKeys.every((key) => {
         if (
-          key === 'export' &&
+          key === "export" &&
           prevUIOptions?.canvasActions?.export &&
           nextUIOptions?.canvasActions?.export
         ) {
@@ -203,7 +203,7 @@ const areEqual = (prevProps: ExcalidrawProps, nextProps: ExcalidrawProps) => {
 };
 
 export const Excalidraw = React.memo(ExcalidrawBase, areEqual);
-Excalidraw.displayName = 'Excalidraw';
+Excalidraw.displayName = "Excalidraw";
 
 export {
   getSceneVersion,
@@ -211,32 +211,31 @@ export {
   hashString,
   isInvisiblySmallElement,
   getNonDeletedElements,
-} from './element';
-export {defaultLang, useI18n, languages} from './i18n';
+} from "./element";
+export { defaultLang, useI18n, languages } from "./i18n";
 export {
   restore,
   restoreAppState,
   restoreElements,
   restoreLibraryItems,
-} from './data/restore';
+} from "./data/restore";
 
-/* export {
+export {
   exportToCanvas,
   exportToBlob,
   exportToSvg,
   exportToClipboard,
-} from "../utils/export"; */
-export {exportToCanvas} from './utils/export';
+} from "../utils/export";
 
-export {serializeAsJSON, serializeLibraryAsJSON} from './data/json';
+export { serializeAsJSON, serializeLibraryAsJSON } from "./data/json";
 export {
   loadFromBlob,
   loadSceneOrLibraryFromBlob,
   loadLibraryFromBlob,
-} from './data/blob';
-export {getFreeDrawSvgPath} from './renderer/renderElement';
-export {mergeLibraryItems, getLibraryItemsHash} from './data/library';
-export {isLinearElement} from './element/typeChecks';
+} from "./data/blob";
+export { getFreeDrawSvgPath } from "./renderer/renderElement";
+export { mergeLibraryItems, getLibraryItemsHash } from "./data/library";
+export { isLinearElement } from "./element/typeChecks";
 
 export {
   FONT_FAMILY,
@@ -244,40 +243,40 @@ export {
   MIME_TYPES,
   ROUNDNESS,
   DEFAULT_LASER_COLOR,
-} from './constants';
+} from "./constants";
 
 export {
   mutateElement,
   newElementWith,
   bumpVersion,
-} from './element/mutateElement';
+} from "./element/mutateElement";
 
-export {parseLibraryTokensFromUrl, useHandleLibrary} from './data/library';
+export { parseLibraryTokensFromUrl, useHandleLibrary } from "./data/library";
 
 export {
   sceneCoordsToViewportCoords,
   viewportCoordsToSceneCoords,
-} from './utils';
+} from "./utils";
 
-export {Sidebar} from './components/Sidebar/Sidebar';
-export {Button} from './components/Button';
-export {Footer};
-export {MainMenu};
-export {useDevice} from './components/App';
-export {WelcomeScreen};
-export {LiveCollaborationTrigger};
+export { Sidebar } from "./components/Sidebar/Sidebar";
+export { Button } from "./components/Button";
+export { Footer };
+export { MainMenu };
+export { useDevice } from "./components/App";
+export { WelcomeScreen };
+export { LiveCollaborationTrigger };
 
-export {DefaultSidebar} from './components/DefaultSidebar';
-export {TTDDialog} from './components/TTDDialog/TTDDialog';
-export {TTDDialogTrigger} from './components/TTDDialog/TTDDialogTrigger';
+export { DefaultSidebar } from "./components/DefaultSidebar";
+export { TTDDialog } from "./components/TTDDialog/TTDDialog";
+export { TTDDialogTrigger } from "./components/TTDDialog/TTDDialogTrigger";
 
-export {normalizeLink} from './data/url';
-export {zoomToFitBounds} from './actions/actionCanvas';
-export {convertToExcalidrawElements} from './data/transform';
-export {getCommonBounds, getVisibleSceneBounds} from './element/bounds';
+export { normalizeLink } from "./data/url";
+export { zoomToFitBounds } from "./actions/actionCanvas";
+export { convertToExcalidrawElements } from "./data/transform";
+export { getCommonBounds, getVisibleSceneBounds } from "./element/bounds";
 
 export {
   elementsOverlappingBBox,
   isElementInsideBBox,
   elementPartiallyOverlapsWithOrContainsBBox,
-} from './utils/withinBounds';
+} from "../utils/withinBounds";
